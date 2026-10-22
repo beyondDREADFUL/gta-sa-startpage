@@ -12,12 +12,27 @@ A browser start page inspired by the iconic **GTA San Andreas** menu.
 
 ## Setup Instructions
 
-To configure it as your new tab page, use the following extensions:
+### As a Chrome extension (recommended)
+
+The start page ships as its own Chrome extension that replaces your new tab page — no third-party new tab extension needed.
+
+```bash
+npm install
+npm run build:extension
+```
+
+Open `chrome://extensions`, enable **Developer mode**, click **Load unpacked** and select the `dist-extension` folder. This works in any Chromium browser (Chrome, Brave, Edge, Vivaldi).
+
+`npm run zip:extension` packages the build as `gta-sa-startpage.zip` for uploading to the Chrome Web Store.
+
+> Browsers keep focus in the address bar on a new tab, so the search bar isn't focused automatically. Your saved websites and settings from the hosted version don't carry over, since the extension stores them separately.
+
+### As a hosted page
+
+You can also point a new tab extension at the [live demo](https://beyondDREADFUL.github.io/gta-sa-startpage/):
 
 - **Firefox:** [Custom New Tab Page](https://addons.mozilla.org/en-US/firefox/addon/custom-new-tab-page/?src=search)
 - **Chromium browsers:** [Custom New Tab URL](https://chrome.google.com/webstore/detail/custom-new-tab-url/mmjbdbjnoablegbkcklggeknkfcjkjia)
-
-You can also build the page locally and customize the design and functionality as you wish.
 
 ## Features
 
