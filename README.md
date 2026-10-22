@@ -8,7 +8,9 @@ Menu sounds, fonts and artwork from the game, plus a search bar, your favourite 
 
 [Live demo](https://beyondDREADFUL.github.io/gta-sa-startpage/) · [Install](#install) · [Features](#features) · [Keyboard controls](#keyboard-controls)
 
-![The main menu with a list of websites, a search bar, a clock and the Grove Street sunset artwork](./assets/screenshots/main-menu.webp)
+[![Showcase: scrolling the main menu, switching search engines, changing backgrounds and the volume in Options](./assets/showcase/showcase.webp)](./assets/showcase/showcase.mp4)
+
+<sub>Click the preview to watch the full video with the menu sounds.</sub>
 
 </div>
 
@@ -21,6 +23,8 @@ Menu sounds, fonts and artwork from the game, plus a search bar, your favourite 
 - **Your websites as menu entries**, in one or two columns. <kbd>1</kbd>–<kbd>9</kbd> open them instantly, and middle-click opens a new tab.
 - **Clock and date** in 24-hour or 12-hour format, or turned off.
 - **Six backgrounds** from the game, plus the original menu sound effects.
+
+![The main menu with a list of websites, a search bar, a clock and the Grove Street sunset artwork](./assets/screenshots/main-menu.webp)
 
 ![Searching YouTube with the websites in two columns over a Los Santos street](./assets/screenshots/search.webp)
 
