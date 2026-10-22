@@ -1,53 +1,78 @@
 @font-face {
-  font-family: 'Bank Gothic'; 
-  src: url('./assets/fonts/BankGothicMediumBT.ttf'); 
+  font-family: "Bank Gothic";
+  src: url("./assets/fonts/BankGothicMediumBT.ttf");
   font-display: block;
 }
 
 @font-face {
-  font-family: 'Beckett'; 
-  src: url('./assets/fonts/Beckett.ttf'); 
+  font-family: "Beckett";
+  src: url("./assets/fonts/Beckett.ttf");
   font-display: block;
 }
 
 @font-face {
-  font-family: 'Futura LT Bold';
-  src: url('./assets/fonts/FuturaLT-Bold.woff') format('woff');
+  font-family: "Futura LT Bold";
+  src: url("./assets/fonts/FuturaLT-Bold.woff") format("woff");
   font-display: block;
-  }
-  
-
-.font-bankGothic{
-  font-family: "Bank Gothic"
-}
-.font-beckett{
-  font-family: "Beckett"
-}
-.font-futura{
-  font-family: "Futura LT Bold"
 }
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body{
+@layer components {
+  /* Text styled like a GTA SA menu entry: dim until hovered, focused or active */
+  .menu-item {
+    @apply font-bankGothic text-sa-dim outline-none transition-colors duration-100 text-left;
+  }
+  .menu-item:hover,
+  .menu-item:focus-visible,
+  .menu-item[aria-current="true"],
+  .menu-item[aria-pressed="true"] {
+    @apply text-sa-blue;
+  }
+  .menu-item:disabled {
+    @apply opacity-30 pointer-events-none;
+  }
+
+  .field {
+    @apply w-full bg-sa-field/90 border border-sa-line px-3 py-2 text-white outline-none
+      placeholder:text-sa-dim focus:border-sa-dim transition-colors;
+  }
+}
+
+html,
+body {
   background-color: black;
+  color: white;
+}
+
+::selection {
+  background: #a8c3e7;
+  color: black;
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 
-
 ::-webkit-scrollbar-thumb {
-  background: #4b5b6a;
+  background: #2a3038;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #a8c3e7;
+  background: #4b5b6a;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
