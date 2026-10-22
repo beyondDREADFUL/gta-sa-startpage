@@ -102,6 +102,13 @@ interface VolumeRowProps {
 }
 
 const VOLUME_STEPS = 10;
+const STEPPER_BUTTON = "w-10 h-10 flex items-center justify-center text-sa-dim active:text-sa-blue touch-manipulation";
+
+// Maps a pointer's x position over the bars to a level; left of the first bar is 0
+function levelAt(event: PointerEvent) {
+  const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
+  return Math.ceil(((event.clientX - rect.left) / rect.width) * VOLUME_STEPS);
+}
 
 // The segmented volume bar from the game's Audio Setup screen
 export function VolumeRow({ label, value, onChange }: VolumeRowProps) {
@@ -131,11 +138,36 @@ export function VolumeRow({ label, value, onChange }: VolumeRowProps) {
       }}
     >
       <span>{label}</span>
-      <span class="flex items-end gap-1 h-6">
+
+      {/* Phones: bars are too small to tap, so use a stepper */}
+      <span class="flex items-center gap-1 sm:hidden">
+        <button type="button" tabIndex={-1} aria-label="Lower volume" class={STEPPER_BUTTON} onClick={() => set(level - 1)}>
+          −
+        </button>
+        <span class="min-w-[3.5ch] text-center text-white/90 tabular-nums">{level * 10}%</span>
+        <button type="button" tabIndex={-1} aria-label="Raise volume" class={STEPPER_BUTTON} onClick={() => set(level + 1)}>
+          +
+        </button>
+      </span>
+
+      {/* Larger screens: click or drag across the bars, or scroll over them */}
+      <span
+        class="hidden sm:flex items-end gap-1 h-6 touch-none"
+        onPointerDown={(event) => {
+          event.currentTarget.setPointerCapture(event.pointerId);
+          set(levelAt(event));
+        }}
+        onPointerMove={(event) => {
+          if (event.currentTarget.hasPointerCapture(event.pointerId)) set(levelAt(event));
+        }}
+        onWheel={(event) => {
+          event.preventDefault();
+          set(level + (event.deltaY < 0 ? 1 : -1));
+        }}
+      >
         {Array.from({ length: VOLUME_STEPS }, (_, i) => (
           <span
             key={i}
-            onClick={() => set(i + 1 === level ? i : i + 1)}
             class={`w-3 transition-colors ${
               i < level ? "bg-sa-blue" : "bg-sa-line group-hover:bg-sa-dim/60"
             }`}
