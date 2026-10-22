@@ -36,13 +36,24 @@ You can also point a new tab extension at the [live demo](https://beyondDREADFUL
 
 ## Features
 
-- 🎵 Classic menu sound effects
-- 🎨 Multiple background options to choose from
-- ⬆️ Move up and down in the menu using `jk`, `ws`, or the arrow keys
-- 🔍 Integrated search engines
-- 🔄 **New:** Reorder websites and search engines
-- ✍️ **New:** Ability to add custom search engines
-- ⏰ **New:** Added clock to the main menu
+- 🎵 Classic menu sound effects with an in-game style volume bar
+- 🎨 Six backgrounds, one or two column layouts, 12/24-hour clock and date
+- 🔍 One search bar for Google, DuckDuckGo, Bing, YouTube, Wikipedia, SearXNG or your own engines; type a URL to go straight there
+- 🔄 Add, edit and reorder websites and search engines
+- 💾 Export and import a backup of your websites and settings
+
+### Keyboard
+
+| Key | Main menu | Options |
+| --- | --- | --- |
+| `↑` `↓` / `j` `k` / `w` `s` | Move through the menu | Move through the options |
+| `←` `→` | Move between columns | Change the selected option |
+| `Enter` | Open the website | Select |
+| `1`–`9` | Open that website | |
+| `/` | Jump to the search bar | |
+| `Tab` (in search) | Switch search engine | |
+| `Q` / `E` | | Previous / next tab |
+| `Esc` | Leave the search bar | Back to the main menu |
 
 ## Acknowledgments
 
