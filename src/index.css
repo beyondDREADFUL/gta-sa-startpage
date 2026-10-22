@@ -10,12 +10,6 @@
   font-display: block;
 }
 
-@font-face {
-  font-family: "Futura LT Bold";
-  src: url("./assets/fonts/FuturaLT-Bold.woff") format("woff");
-  font-display: block;
-}
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

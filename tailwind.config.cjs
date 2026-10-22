@@ -15,7 +15,6 @@ module.exports = {
       fontFamily: {
         beckett: ["Beckett", "serif"],
         bankGothic: ["Bank Gothic", "sans-serif"],
-        futura: ["Futura LT Bold", "sans-serif"],
       },
     },
   },
