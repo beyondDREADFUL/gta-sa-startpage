@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "deploy": "gh-pages -d dist",
     "build:extension": "tsc -b && vite build --mode extension",
-    "zip:extension": "npm run build:extension && cd dist-extension && zip -qr ../gta-sa-startpage.zip ."
+    "zip:extension": "npm run build:extension && cd dist-extension && zip -qr ../gta-sa-startpage.zip .",
+    "predeploy": "npm run build"
   },
   "dependencies": {
     "dexie": "^4.0.8",
