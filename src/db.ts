@@ -32,13 +32,30 @@ db.version(2)
       });
   });
 
-export async function initDb() {
+// Returns true when this is a first run and the person should choose their
+// starting websites; otherwise seeds the defaults if needed and returns false
+export async function initDb(canAsk: boolean) {
   // Only seed on first run, so deleting every website doesn't bring them back
-  if (localStorage.getItem("websitesSeeded")) return;
+  if (localStorage.getItem("websitesSeeded")) return false;
   if ((await db.websites.count()) === 0) {
+    if (canAsk) return true;
     await replaceWebsites(DEFAULT_WEBSITES);
   }
   localStorage.setItem("websitesSeeded", "true");
+  return false;
+}
+
+export async function finishFirstRun(sites: { name: string; link: string }[]) {
+  await replaceWebsites(sites);
+  localStorage.setItem("websitesSeeded", "true");
+}
+
+// Adds sites whose links aren't already saved; returns how many were added
+export async function addMissingWebsites(sites: { name: string; link: string }[]) {
+  const existing = new Set((await getWebsites()).map((site) => site.link));
+  const fresh = sites.filter((site) => !existing.has(site.link));
+  for (const site of fresh) await addWebsite(site.name, site.link);
+  return fresh.length;
 }
 
 export function getWebsites() {

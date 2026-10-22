@@ -9,6 +9,7 @@
     "48": "icons/icon-48.png",
     "128": "icons/icon-128.png"
   },
+  "optional_permissions": ["bookmarks"],
   "chrome_url_overrides": {
     "newtab": "index.html"
   }

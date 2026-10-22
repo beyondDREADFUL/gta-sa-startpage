@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "preact/hooks";
 import { Website, getWebsites, initDb } from "./db";
 import { Settings, loadSettings, saveSettings } from "./settings";
+import { canImportBookmarks } from "./bookmarks";
 import Background from "./components/Background";
 import Home from "./components/Home";
 import SettingsMenu from "./components/Settings/SettingsMenu";
@@ -8,6 +9,7 @@ import SettingsMenu from "./components/Settings/SettingsMenu";
 export function App() {
   const [settings, setSettings] = useState<Settings>(loadSettings);
   const [websites, setWebsites] = useState<Website[] | null>(null);
+  const [firstRun, setFirstRun] = useState(false);
   const [showSettings, setShowSettings] = useState(() => location.hash === "#settings");
 
   const refreshWebsites = useCallback(async () => {
@@ -25,7 +27,8 @@ export function App() {
   }, [refreshWebsites]);
 
   useEffect(() => {
-    initDb()
+    initDb(canImportBookmarks)
+      .then(setFirstRun)
       .catch((error) => console.error("Failed to set up the database", error))
       .then(refreshWebsites);
   }, []);
@@ -53,6 +56,11 @@ export function App() {
     location.hash = "settings";
   }, []);
 
+  const finishFirstRun = useCallback(async () => {
+    setFirstRun(false);
+    await refreshWebsites();
+  }, [refreshWebsites]);
+
   const closeSettings = useCallback(() => {
     if (pushedSettings.current) history.back();
     else history.replaceState(null, "", location.pathname + location.search);
@@ -74,7 +82,13 @@ export function App() {
             reloadAll={reloadAll}
           />
         ) : (
-          <Home settings={settings} websites={websites} openSettings={openSettings} />
+          <Home
+            settings={settings}
+            websites={websites}
+            firstRun={firstRun}
+            finishFirstRun={finishFirstRun}
+            openSettings={openSettings}
+          />
         )}
       </main>
     </div>

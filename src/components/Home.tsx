@@ -7,14 +7,17 @@ import { playSound } from "../utils/audioUtils";
 import { KeyHints, MenuButton } from "./ui";
 import Clock from "./Clock";
 import SearchBar from "./SearchBar";
+import FirstRun from "./FirstRun";
 
 interface HomeProps {
   settings: Settings;
   websites: Website[];
+  firstRun: boolean;
+  finishFirstRun: () => Promise<void>;
   openSettings: () => void;
 }
 
-export default function Home({ settings, websites, openSettings }: HomeProps) {
+export default function Home({ settings, websites, firstRun, finishFirstRun, openSettings }: HomeProps) {
   const menuRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
   const columns = settings.layout === "twoColumns" ? 2 : 1;
@@ -55,7 +58,7 @@ export default function Home({ settings, websites, openSettings }: HomeProps) {
       <nav
         aria-label="Websites"
         class={`min-h-0 flex-1 overflow-y-auto py-6 -mx-2 px-2 content-start ${
-          columns === 2 ? "grid grid-cols-2 max-w-[920px] gap-x-12" : "flex flex-col"
+          columns === 2 && !firstRun ? "grid grid-cols-2 max-w-[920px] gap-x-12" : "flex flex-col"
         }`}
       >
         {websites.map((site, index) => (
@@ -72,7 +75,8 @@ export default function Home({ settings, websites, openSettings }: HomeProps) {
             <span class="truncate">{site.name}</span>
           </a>
         ))}
-        {websites.length === 0 && (
+        {firstRun && <FirstRun onDone={finishFirstRun} />}
+        {websites.length === 0 && !firstRun && (
           <p class="font-bankGothic text-sa-muted text-lg">
             No websites yet. Add some in Settings.
           </p>

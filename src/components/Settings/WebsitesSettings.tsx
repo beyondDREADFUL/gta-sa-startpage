@@ -1,6 +1,7 @@
 import { useState } from "preact/hooks";
 import {
   Website,
+  addMissingWebsites,
   addWebsite,
   deleteWebsite,
   moveWebsite,
@@ -8,6 +9,7 @@ import {
   normalizeLink,
   updateWebsite,
 } from "../../db";
+import { canImportBookmarks, readBookmarksBar } from "../../bookmarks";
 import { ConfirmButton, Hint, MenuButton, SectionTitle } from "../ui";
 import { SettingsSectionProps } from "./SettingsMenu";
 
@@ -116,6 +118,18 @@ function WebsiteRow({ site, index, count, refresh }: { site: Website; index: num
 }
 
 export default function WebsitesSettings({ websites, refreshWebsites }: SettingsSectionProps) {
+  const [importMessage, setImportMessage] = useState<{ text: string; error?: boolean } | null>(null);
+
+  async function importBookmarks() {
+    const sites = await readBookmarksBar().catch(() => null);
+    if (sites === null) return setImportMessage({ text: "Chrome didn't allow access to your bookmarks.", error: true });
+    const added = await addMissingWebsites(sites);
+    await refreshWebsites();
+    setImportMessage({
+      text: added ? `Added ${added} website${added === 1 ? "" : "s"} from your bookmarks bar.` : "Everything on your bookmarks bar is already here.",
+    });
+  }
+
   return (
     <div class="grid gap-10">
       <section>
@@ -127,6 +141,16 @@ export default function WebsitesSettings({ websites, refreshWebsites }: Settings
             await refreshWebsites();
           }}
         />
+        {canImportBookmarks && (
+          <div class="mt-6">
+            <MenuButton class="text-xl" onClick={importBookmarks}>
+              Import Chrome Bookmarks
+            </MenuButton>
+            <p class={`text-sm mt-1 ${importMessage?.error ? "text-red-400" : "text-sa-muted"}`}>
+              {importMessage?.text ?? "Adds the sites on your bookmarks bar that aren't here yet."}
+            </p>
+          </div>
+        )}
       </section>
 
       <section>
